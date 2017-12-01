@@ -1,5 +1,6 @@
 package github.ishaan.buttonprogressbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -130,7 +131,7 @@ public class ButtonProgressBar extends View {
      * @return - mTickBitmap image
      */
     private Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-        Drawable drawable = AppCompatDrawableManager.get().getDrawable(context, drawableId);
+        @SuppressLint("RestrictedApi") Drawable drawable = AppCompatDrawableManager.get().getDrawable(context, drawableId);
         if (Build.VERSION.SDK_INT < API_LEVEL_LOLLIPOP) {
             drawable = (DrawableCompat.wrap(drawable)).mutate();
         }
@@ -266,6 +267,7 @@ public class ButtonProgressBar extends View {
         canvas.drawRoundRect(bgRectf, mCornerRadius, mCornerRadius, mBackgroundPaint);
         float progressPoint = (((float) canvas.getWidth()/ MAX) * mProgress);
         RectF progRect = new RectF(topX, topY, progressPoint, canvas.getHeight());
+        System.out.println("topX" + topX + "  topY" + topY + "  progressPoint" + progressPoint + "  getHeight" + canvas.getHeight());
         canvas.drawRoundRect(progRect, mCornerRadius, mCornerRadius, mProgressPaint);
     }
 

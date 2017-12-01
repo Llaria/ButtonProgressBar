@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity
     private ButtonProgressBar mLoader;
     private Spinner mLoaderTypeSp;
     private int progress = 0;
+    private float percent = 0.1f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,27 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mLoader = (ButtonProgressBar) findViewById(R.id.cl_main);
         mLoaderTypeSp = (Spinner) findViewById(R.id.sp_select_type);
+        final SinkView sinkView  = (SinkView) findViewById(R.id.sink);
+        sinkView.setPercent(percent);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (percent <= 1.0f){
+                    percent += 0.1f;
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sinkView.setPercent(percent);
+                        }
+                    });
+                }
+            }
+        }).start();
         init();
     }
 
